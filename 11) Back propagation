@@ -1,0 +1,20 @@
+#Back Propagation
+import numpy as np
+np.random.seed(1)
+X = np.array([[0,0],[0,1],[1,0],[1,1]])
+y = np.array([[0],[1],[1],[0]])
+W1 = np.random.rand(2,2)
+W2 = np.random.rand(2,1)
+lr = 0.1
+sig = lambda x: 1 / (1 + np.exp(-x))
+dsig = lambda x: x * (1 - x)
+for _ in range(5000):
+    h = sig(X @ W1)
+    out = sig(h @ W2)
+    d_out = (y - out) * dsig(out)
+    d_h   = (d_out @ W2.T) * dsig(h)
+    W2 += h.T @ d_out * lr
+    W1 += X.T @ d_h * lr
+print("X  y  Pred")
+for i in range(4):
+    print(X[i], y[i][0], f"{out[i][0]:.4f}")

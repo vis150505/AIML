@@ -1,0 +1,32 @@
+import itertools, pandas as pd
+
+H=['healthy','sick']
+O=['sleeping','eating','pooping']
+pi=[0.5,0.5]
+
+A=pd.DataFrame([[0.7,0.3],[0.4,0.6]],index=H,columns=H)
+B=pd.DataFrame([[0.2,0.6,0.2],[0.4,0.1,0.5]],index=H,columns=O)
+
+def F(obs):
+    tot=0
+    for p in itertools.product(H, repeat=len(obs)):
+        pr=pi[H.index(p[0])]*B.loc[p[0],obs[0]]
+        for i in range(1,len(obs)):
+            pr*=A.loc[p[i-1],p[i]]*B.loc[p[i],obs[i]]
+        tot+=pr
+    return tot
+
+def V(obs):
+    best, path=0,None
+    for p in itertools.product(H, repeat=len(obs)):
+        pr=pi[H.index(p[0])]*B.loc[p[0],obs[0]]
+        for i in range(1,len(obs)):
+            pr*=A.loc[p[i-1],p[i]]*B.loc[p[i],obs[i]]
+        if pr>best: best,path=pr,p
+    return best,path
+
+obs=['sleeping','eating','sleeping']
+print("Forward:",F(obs))
+p,x=V(obs)
+print("Viterbi:",x)
+print("Prob:",p)

@@ -1,0 +1,31 @@
+colors = ['Red', 'Blue', 'Green']
+states = ['a', 'b', 'c', 'd']
+neighbors = {
+    'a': ['b', 'c', 'd'],
+    'b': ['a', 'd'],
+    'c': ['a', 'd'],
+    'd': ['c', 'b', 'a']
+}
+
+colors_of_states = {}
+
+def promising(state, color):
+    return all(colors_of_states.get(n) != color for n in neighbors[state])
+
+def get_color(state):
+    for c in colors:
+        if promising(state, c):
+            return c
+
+def main():
+    for s in states:
+        colors_of_states[s] = get_color(s)
+    print(colors_of_states)
+
+main()
+
+
+
+::::::::::::output::::::::::::::
+
+{'a': 'Red', 'b': 'Blue', 'c': 'Red', 'd': 'Green'}

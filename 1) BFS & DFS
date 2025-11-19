@@ -1,0 +1,67 @@
+graph = {}
+edges = set()
+
+def add_node(n):
+    if n in graph:
+        print("Node exists."); return False
+    graph[n] = []; return True
+
+def add_edge(u, v):
+    if u not in graph or v not in graph:
+        print("Add nodes first."); return False
+    e = tuple(sorted((u, v)))
+    if e in edges:
+        print("Edge exists."); return False
+    graph[u].append(v); graph[v].append(u); edges.add(e); return True
+
+def bfs(s):
+    print("BFS:", end=" ")
+    vis, q = set(), [s]
+    while q:
+        n = q.pop(0)
+        if n not in vis:
+            print(n, end=" "); vis.add(n); q += graph[n]
+    print()
+
+def dfs(s, vis=None):
+    if vis is None: print("DFS:", end=" "); vis=set()
+    if s not in vis:
+        print(s, end=" "); vis.add(s)
+        for n in graph[s]: dfs(n, vis)
+
+n = int(input("Nodes: "))
+for _ in range(n):
+    while not add_node(input("Node: ").strip()): pass
+
+e = int(input("Edges: "))
+for _ in range(e):
+    while True:
+        u, v = input("Edge (u v): ").split()
+        if add_edge(u, v): break
+
+start = input("Start: ").strip()
+bfs(start) if start in graph else print("Invalid start")
+dfs(start) if start in graph else None
+
+
+
+
+
+
+::::::::::::::::::::::::OUTPUT :::::::::::::::::::::::::::
+Nodes: 4
+Node: A
+Node: B
+Node: C
+Node: D
+Edges: 3
+Edge (u v): A B
+Edge (u v): A C
+Edge (u v): B D
+Start: A
+
+
+BFS: A B C D 
+DFS: A B D C 
+
+

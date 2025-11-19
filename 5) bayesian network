@@ -1,0 +1,55 @@
+P_burglary = 0.002
+P_earthquake = 0.001
+
+P_alarm_be = 0.94
+P_alarm_bne = 0.95
+P_alarm_nbe = 0.31
+P_alarm_nbn = 0.001
+
+P_david_a = 0.91
+P_david_na = 0.05
+
+P_sophia_a = 0.75
+P_sophia_na = 0.02
+
+def joint_probability(alarm, burglary, earthquake, david_calls, sophia_calls):
+    if alarm:
+        if burglary and earthquake:
+            P_alarm = P_alarm_be
+        elif burglary:
+            P_alarm = P_alarm_bne
+        elif earthquake:
+            P_alarm = P_alarm_nbe
+        else:
+            P_alarm = P_alarm_nbn
+    else:
+        if burglary and earthquake:
+            P_alarm = 1 - P_alarm_be
+        elif burglary:
+            P_alarm = 1 - P_alarm_bne
+        elif earthquake:
+            P_alarm = 1 - P_alarm_nbe
+        else:
+            P_alarm = 1 - P_alarm_nbn
+
+    P_david = P_david_a if alarm and david_calls else \
+              P_david_na if (not alarm and david_calls) else \
+              (1 - P_david_a if alarm else 1 - P_david_na)
+
+    P_sophia = P_sophia_a if alarm and sophia_calls else \
+               P_sophia_na if (not alarm and sophia_calls) else \
+               (1 - P_sophia_a if alarm else 1 - P_sophia_na)
+
+    return (P_burglary if burglary else 1 - P_burglary) * \
+           (P_earthquake if earthquake else 1 - P_earthquake) * \
+           P_alarm * P_david * P_sophia
+
+result = joint_probability(
+    alarm=True,
+    burglary=False,
+    earthquake=False,
+    david_calls=True,
+    sophia_calls=True
+)
+
+print(f'Probability: {result:.8f}')

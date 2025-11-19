@@ -30,3 +30,9 @@ print("Forward:",F(obs))
 p,x=V(obs)
 print("Viterbi:",x)
 print("Prob:",p)
+
+
+:::::::::::::::::output:::::::::::::::
+Forward: 0.0282
+Viterbi: ('sick', 'healthy', 'healthy')
+Prob: 0.006719999999999999

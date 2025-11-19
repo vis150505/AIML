@@ -1,0 +1,16 @@
+#KMeans
+from sklearn import datasets
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+import sklearn.metrics as sm
+iris = datasets.load_iris()
+X = iris.data[:, :2]
+y = iris.target
+model = KMeans(n_clusters=3)
+model.fit(X)
+print("Accuracy: ")
+print(sm.accuracy_score(y,model.labels_))
+print("Confusion Matrix: ")
+print(sm.confusion_matrix(y,model.labels_))
+print("classification Report: ")
+print(sm.classification_report(y,model.labels_))

@@ -1,0 +1,13 @@
+from sympy import symbols, Or, Not, Implies, Xor, satisfiable
+
+Rain, Hagrid, Dumbledore = symbols('Rain Hagrid Dumbledore')
+
+s1 = Implies(Not(Rain), Hagrid)
+s2 = Xor(Hagrid, Dumbledore)
+s3 = Dumbledore
+
+kb = s1 & s2 & s3
+solution = satisfiable(kb, all_models=True)
+
+for model in solution:
+    print("It rained today." if model[Rain] else "There is no rain today.")
